@@ -1,26 +1,22 @@
-import easyocr
+import pytesseract
 from PIL import Image
 import numpy as np
 import re
 from typing import List, Tuple
 from utils.screenshot import enhance_image_for_ocr_2, enhance_image_for_ocr
 
-reader = easyocr.Reader(["en"], gpu=False)
+import logging
 
 def extract_text(pil_img: Image.Image) -> str:
   img_np = np.array(pil_img)
-  result = reader.readtext(img_np)
-  texts = [text[1] for text in result]
-  return " ".join(texts)
+  result = pytesseract.image_to_string(img_np)
+  result = re.sub(r"\n", " ", result)
+  return result
 
 def extract_number(pil_img: Image.Image) -> int:
   img_np = np.array(pil_img)
-  result = reader.readtext(img_np, allowlist="0123456789")
-  texts = [text[1] for text in result]
-  joined_text = "".join(texts)
-
-  digits = re.sub(r"[^\d]", "", joined_text)
-
+  result = pytesseract.image_to_string(img_np, config= "-c tessedit_char_whitelist=0123456789")
+  digits = re.sub(r"[^\d]", "", result)
   if digits:
     return int(digits)
   
