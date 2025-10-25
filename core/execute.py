@@ -126,7 +126,7 @@ def check_training():
       sleep(0.1)
 
   pyautogui.mouseUp()
-  click(img="assets/buttons/back_btn.png")
+  click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
   return results
 
 def do_train(train):
@@ -408,10 +408,10 @@ def auto_buy_skill():
     sleep(0.5)
     click(img="assets/buttons/close_btn.png", minSearch=get_secs(2), region=constants.SCREEN_MIDDLE_REGION)
     sleep(0.5)
-    click(img="assets/buttons/back_btn.png")
+    click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
   else:
     info("No matching skills found. Going back.")
-    click(img="assets/buttons/back_btn.png")
+    click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
 
 PREFERRED_POSITION_SET = False
 def career_lobby():
