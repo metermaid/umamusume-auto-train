@@ -158,6 +158,7 @@ def check_support_card(threshold=0.8, target="none"):
 
 # Get failure chance (idk how to get energy value)
 def check_failure():
+  info(constants.FAILURE_REGION)
   failure = enhanced_screenshot(constants.FAILURE_REGION)
   failure_text = extract_text(failure).lower()
 

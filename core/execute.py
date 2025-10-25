@@ -127,6 +127,7 @@ def check_training():
 
   pyautogui.mouseUp()
   click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
+  sleep(0.5)
   return results
 
 def do_train(train):
@@ -409,9 +410,11 @@ def auto_buy_skill():
     click(img="assets/buttons/close_btn.png", minSearch=get_secs(2), region=constants.SCREEN_MIDDLE_REGION)
     sleep(0.5)
     click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
+    sleep(0.5)
   else:
     info("No matching skills found. Going back.")
     click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), region=constants.SCREEN_BOTTOM_REGION)
+    sleep(0.5)
 
 PREFERRED_POSITION_SET = False
 def career_lobby():
@@ -542,7 +545,7 @@ def career_lobby():
               race_done = True
               break
             else:
-              click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), text=f"{race_list['name']} race not found. Proceeding to training.")
+              click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), text=f"{race_list['name']} race not found. Proceeding to training.", region=constants.SCREEN_BOTTOM_REGION)
               sleep(0.5)
       if race_done:
         continue
@@ -568,15 +571,21 @@ def career_lobby():
           continue
         else:
           # If there is no race matching to aptitude, go back and do training instead
-          click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), text="Proceeding to training.")
+          click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), text="Proceeding to training.", region=constants.SCREEN_BOTTOM_REGION)
           sleep(0.5)
 
     # Check training button
-    if not go_to_training():
+    train_btn = pyautogui.locateOnScreen(f"assets/buttons/training_btn.png", confidence=0.8, region=constants.SCREEN_BOTTOM_REGION)
+    if not train_btn:
       debug("Training button is not found.")
-      continue
+      click(img="assets/buttons/back_btn.png", minSearch=get_secs(1), text="Proceeding to training.", region=constants.SCREEN_BOTTOM_REGION)
+      sleep(5)
+    
+    if (energy_level > -1 and energy_level < state.SKIP_TRAINING_ENERGY):
+      do_rest(energy_level)
 
     # Last, do training
+    go_to_training()
     sleep(0.5)
     results_training = check_training()
 
