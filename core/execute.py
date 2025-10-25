@@ -85,6 +85,14 @@ def check_training():
 
   results = {}
 
+  training_fail_regions = {
+   "spd": constants.SPD_FAIL_REGION,
+   "sta": constants.STA_FAIL_REGION,
+   "pwr": constants.PWR_FAIL_REGION,
+   "guts": constants.GUTS_FAIL_REGION,
+   "wit": constants.WIT_FAIL_REGION
+  }
+
   # failcheck enum "train","no_train","check_all"
   failcheck="check_all"
   margin=5
@@ -98,9 +106,11 @@ def check_training():
       pyautogui.mouseDown()
       support_card_results = check_support_card()
 
+      failure_region = training_fail_regions[key]
+
       if key != "wit":
         if failcheck == "check_all":
-          failure_chance = check_failure()
+          failure_chance = check_failure(failure_region)
           if failure_chance > (state.MAX_FAILURE + margin):
             info("Failure rate too high skip to check wit")
             failcheck="no_train"
@@ -117,7 +127,7 @@ def check_training():
         if failcheck == "train":
           failure_chance = 0
         else:
-          failure_chance = check_failure()
+          failure_chance = check_failure(failure_region)
 
       support_card_results["failure"] = failure_chance
       results[key] = support_card_results

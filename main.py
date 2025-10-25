@@ -15,7 +15,7 @@ import core.state as state
 from server.main import app
 from update_config import update_config
 
-hotkey = "f1"
+hotkey = "1"
 
 def focus_umamusume():
   try:
@@ -105,9 +105,9 @@ def hotkey_listener():
 
 def start_server():
   res = pyautogui.resolution()
-  if res.width != 1920 or res.height != 1080:
-    error(f"Your resolution is {res.width} x {res.height}. Please set your screen to 1920 x 1080.")
-    return
+#   if res.width != 1920 or res.height != 1080:
+#     error(f"Your resolution is {res.width} x {res.height}. Please set your screen to 1920 x 1080.")
+#     return
   host = "127.0.0.1"
   port = 8000
   info(f"Press '{hotkey}' to start/stop the bot.")

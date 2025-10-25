@@ -157,32 +157,9 @@ def check_support_card(threshold=0.8, target="none"):
   return count_result
 
 # Get failure chance (idk how to get energy value)
-def check_failure():
-  info(constants.FAILURE_REGION)
-  failure = enhanced_screenshot(constants.FAILURE_REGION)
-  failure_text = extract_text(failure).lower()
-
-  if not failure_text.startswith("failure"):
-    return -1
-
-  # SAFE CHECK
-  # 1. If there is a %, extract the number before the %
-  match_percent = re.search(r"failure\s+(\d{1,3})%", failure_text)
-  if match_percent:
-    return int(match_percent.group(1))
-
-  # 2. If there is no %, but there is a 9, extract digits before the 9
-  match_number = re.search(r"failure\s+(\d+)", failure_text)
-  if match_number:
-    digits = match_number.group(1)
-    idx = digits.find("9")
-    if idx > 0:
-      num = digits[:idx]
-      return int(num) if num.isdigit() else -1
-    elif digits.isdigit():
-      return int(digits)  # fallback
-
-  return -1
+def check_failure(failure_region = constants.FAILURE_REGION):
+  failure = enhanced_screenshot(failure_region, True)
+  return extract_number(failure)
 
 # Check mood
 def check_mood():
