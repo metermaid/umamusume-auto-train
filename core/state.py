@@ -158,7 +158,7 @@ def check_support_card(threshold=0.8, target="none"):
 
 # Get failure chance (idk how to get energy value)
 def check_failure(failure_region = constants.FAILURE_REGION):
-  failure = enhanced_screenshot(failure_region, True)
+  failure = enhanced_screenshot(failure_region)
   return extract_number(failure)
 
 # Check mood
